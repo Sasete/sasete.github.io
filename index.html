@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tufan Tuğra İskender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ───────────────────────────────────── */
+    :root {
+      --bg:      #121212;
+      --bg2:     #1a1a1a;
+      --border:  #2a2a2a;
+      --text:    #e0e0e0;
+      --muted:   #888888;
+      --accent:  #a78bfa;
+      --accent-h:#c4b5fd;
+      --speed:   0.25s;
+    }
+
+    /* ── Reset ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity var(--speed); }
+    a:hover { opacity: 0.7; }
+
+    /* ── Layout ──────────────────────────────────────── */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar ─────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem 1.75rem;
+      overflow-y: auto;
+      z-index: 50;
+    }
+
+    .sidebar-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-title {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      line-height: 1.5;
+    }
+
+    .sidebar-location {
+      font-size: 0.68rem;
+      color: var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .sidebar-nav { flex: 1; }
+    .sidebar-nav ul { list-style: none; }
+    .sidebar-nav li { margin-bottom: 0.1rem; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 0.35rem 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      transition: color var(--speed);
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active { color: var(--accent); opacity: 1; }
+
+    .sidebar-footer {
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer .social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 0.6rem;
+    }
+
+    .sidebar-footer .social-links a {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.6rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: border-color var(--speed), color var(--speed);
+    }
+
+    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Main Content ────────────────────────────────── */
+    .main {
+      margin-left: 240px;
+      flex: 1;
+      padding: 4rem 5% 6rem;
+      max-width: 860px;
+    }
+
+    /* ── Section ─────────────────────────────────────── */
+    .section {
+      margin-bottom: 5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 2rem;
+    }
+
+    /* ── About ───────────────────────────────────────── */
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.75;
+    }
+
+    .about-text .hl {
+      background: #3b2f6e;
+      color: var(--accent-h);
+      padding: 0 0.25em;
+    }
+
+    /* ── Experience ──────────────────────────────────── */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+    .exp-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .exp-company {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .exp-period {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .exp-role {
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-projects { display: flex; flex-direction: column; gap: 0.9rem; }
+
+    .exp-project-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-bullets { list-style: none; }
+
+    .exp-bullets li {
+      font-size: 0.77rem;
+      color: var(--muted);
+      line-height: 1.65;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+
+    /* ── Skills ──────────────────────────────────────── */
+    .skills-group { margin-bottom: 1.75rem; }
+
+    .skills-group-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      transition: border-color var(--speed), color var(--speed);
+    }
+
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Projects ────────────────────────────────────── */
+    .project-list { display: flex; flex-direction: column; }
+
+    .project-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 2rem;
+      align-items: start;
+    }
+
+    .project-item:first-child { border-top: 1px solid var(--border); }
+
+    .project-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .project-company {
+      font-size: 0.68rem;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
+    .project-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+    .project-tag {
+      font-size: 0.68rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.5rem;
+    }
+
+    .project-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: right;
+      min-width: 80px;
+      padding-top: 0.1rem;
+    }
+
+    .project-links-col a {
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .project-links-col a:hover { color: var(--accent); opacity: 1; }
+
+    /* ── CV ──────────────────────────────────────────── */
+    .cv-block {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      max-width: 520px;
+    }
+
+    .cv-edu {
+      margin-bottom: 1.5rem;
+    }
+
+    .cv-edu-school {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .cv-edu-degree {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .cv-edu-period {
+      font-size: 0.7rem;
+      color: var(--border);
+    }
+
+    .cv-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .cv-block p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .cv-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    .btn {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all var(--speed);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover { background: var(--accent-h); border-color: var(--accent-h); opacity: 1; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover { background: var(--accent); color: #fff; opacity: 1; }
+
+    /* ── Contact ─────────────────────────────────────── */
+    .contact-links-list { list-style: none; }
+
+    .contact-links-list li {
+      padding: 0.4rem 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .contact-links-list li:last-child { border-bottom: none; }
+
+    .contact-label {
+      width: 80px;
+      color: var(--border);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+
+    /* ── Light Mode ──────────────────────────────────── */
+    body.light {
+      --bg:     #f0eeec;
+      --bg2:    #ffffff;
+      --border: #d4d2d0;
+      --text:   #1c1c1c;
+      --muted:  #666666;
+      --accent: #5b21b6;
+      --accent-h: #7c3aed;
+    }
+
+    body.light .about-text .hl { background: #ddd6fe; color: #4c1d95; }
+
+    /* ── Hamburger (mobile) ──────────────────────────── */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 1.2rem; right: 1.2rem;
+      z-index: 200;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.6rem;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px; height: 1.5px;
+      background: var(--text);
+      transition: all var(--speed);
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform var(--speed); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 3rem 6% 4rem; }
+      .hamburger { display: flex; }
+      .project-item { grid-template-columns: 1fr; }
+      .project-links-col { text-align: left; flex-direction: row; }
+      .exp-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="layout">
+
+    <!-- ── SIDEBAR ──────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-name">Tufan Tuğra İskender</div>
+      <div class="sidebar-title">Game Developer</div>
+      <div class="sidebar-location">Istanbul, Turkiye</div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="#about" class="active">about</a></li>
+          <li><a href="#experience">experience</a></li>
+          <li><a href="#projects">projects</a></li>
+          <li><a href="#skills">skills</a></li>
+          <li><a href="#cv">cv</a></li>
+          <li><a href="#contact">contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>Find me</div>
+        <div class="social-links">
+          <a href="https://github.com/Sasete" target="_blank">github / Sasete</a>
+          <a href="https://sasete.itch.io/" target="_blank">itch.io / Sasete</a>
+          <a href="https://www.linkedin.com/in/tufan-tuğra-iskender" target="_blank">linkedin</a>
+          <a href="mailto:t.tugraiskender@gmail.com">email</a>
+        </div>
+        <button class="theme-btn" id="themeBtn">[ light mode ]</button>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ─────────────────────────────────── -->
+    <main class="main">
+
+      <!-- ABOUT -->
+      <section class="section" id="about">
+        <div class="section-eyebrow">01 / about</div>
+        <div class="section-title">Tufan Tuğra İskender</div>
+        <div class="section-rule"></div>
+        <div class="about-text">
+          <p>
+            A passionate game developer and the founder of
+            <span class="hl">iBright Games</span>, with hands-on experience across
+            the full development lifecycle — from prototyping to publishing.
+          </p>
+          <p>
+            Shipped multiple titles including <span class="hl">MiLord</span>,
+            <span class="hl">Livber: Smoke and Mirrors</span>, and
+            <span class="hl">Hive Invasion</span>, while contributing updates to
+            live projects like Swarm Grinder.
+          </p>
+          <p>
+            I love diving into new engines and tools — if there's a system to build
+            or a pipeline to figure out, I'm probably already halfway through it.
+          </p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="section" id="experience">
+        <div class="section-eyebrow">02 / experience</div>
+        <div class="section-title">Work History</div>
+        <div class="section-rule"></div>
+
+        <div class="exp-list">
+
+          <!-- iBright Games -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">iBright Games</span>
+              <span class="exp-period">2022 — Present</span>
+            </div>
+            <div class="exp-role">Founder</div>
+            <div class="exp-projects">
+              <div>
+                <div class="exp-project-title">MiLord</div>
+                <ul class="exp-bullets">
+                  <li>Designed and implemented advanced pathfinding and narrative flow systems.</li>
+                  <li>Built the Visual State Machine (VSM) framework to simplify complex gameplay logic.</li>
+                  <li>Applied strong C# architecture to create scalable, parallel systems.</li>
+                  <li>Directed team collaboration and iterative feature development.</li>
+                </ul>
+              </div>
+              <div>
+                <div class="exp-project-title">Visual State Machine (VSM)</div>
+                <ul class="exp-bullets">
+                  <li>Built a dialogue-focused state machine framework enabling branching conversations and dynamic narrative flow.</li>
+                  <li>Simplified complex dialogue logic, making systems more transparent, reusable, and designer-friendly.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- InEv Games -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">InEv Games</span>
+              <span class="exp-period">2025 — Present</span>
+            </div>
+            <div class="exp-role">Game Developer</div>
+            <div class="exp-projects">
+              <div>
+                <div class="exp-project-title">Livber: Smoke and Mirrors</div>
+                <ul class="exp-bullets">
+                  <li>Implemented achievement systems, localization workflows, and console porting.</li>
+                  <li>Integrated diverse assets into gameplay loops with smooth narrative flow.</li>
+                </ul>
+              </div>
+              <div>
+                <div class="exp-project-title">Kardiya: The Winds of Fate</div>
+                <ul class="exp-bullets">
+                  <li>Oversaw the complete development cycle from design to implementation.</li>
+                  <li>Focused on RPG mechanics, balancing combat, progression, and player experience.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Null State Protocol -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">Null State Protocol</span>
+              <span class="exp-period">2025 — 2026</span>
+            </div>
+            <div class="exp-role">Co-Founder</div>
+            <div class="exp-projects">
+              <div>
+                <div class="exp-project-title">Swarm Grinder</div>
+                <ul class="exp-bullets">
+                  <li>Took responsibility for character design, shaping visual identity and gameplay roles.</li>
+                  <li>Managed and coordinated the development team.</li>
+                </ul>
+              </div>
+              <div>
+                <div class="exp-project-title">Hive Invasion</div>
+                <ul class="exp-bullets">
+                  <li>Led development and system design for large-scale gameplay systems.</li>
+                  <li>Directed architecture and team workflows, ensuring robust multiplayer features.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mensa Interactive -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">Mensa Interactive</span>
+              <span class="exp-period">2019 — 2022</span>
+            </div>
+            <div class="exp-role">Co-Founder</div>
+            <div class="exp-projects">
+              <div>
+                <div class="exp-project-title">Project Merchant (unreleased)</div>
+                <ul class="exp-bullets">
+                  <li>Prototyped trading and economy systems with pathfinding integration.</li>
+                  <li>Acted as generalist developer, coordinating workflows and iterating rapidly on mechanics.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- GES Teknoloji -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">GES Teknoloji</span>
+              <span class="exp-period">Jan 2019 — May 2019</span>
+            </div>
+            <div class="exp-role">Game Developer</div>
+            <div class="exp-projects">
+              <div>
+                <div class="exp-project-title">CSI VR: Crime Scene Investigation</div>
+                <ul class="exp-bullets">
+                  <li>Developed VR interactions and focused on debugging to deliver immersive gameplay.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="section" id="projects">
+        <div class="section-eyebrow">03 / projects</div>
+        <div class="section-title">Selected Work</div>
+        <div class="section-rule"></div>
+
+        <div class="project-list">
+
+          <div class="project-item">
+            <div>
+              <div class="project-name">MiLord</div>
+              <div class="project-company">iBright Games</div>
+              <div class="project-desc">
+                Advanced pathfinding and narrative flow systems built on a custom
+                Visual State Machine framework. Strong C# architecture for scalable, parallel gameplay logic.
+              </div>
+              <div class="project-meta">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">C#</span>
+                <span class="project-tag">VSM Framework</span>
+              </div>
+            </div>
+            <div class="project-links-col">
+              <a href="#">GitHub →</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div>
+              <div class="project-name">Hive Invasion</div>
+              <div class="project-company">Null State Protocol</div>
+              <div class="project-desc">
+                Large-scale gameplay systems with robust multiplayer features.
+                Led architecture and directed the development team from design through shipping.
+              </div>
+              <div class="project-meta">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">C#</span>
+                <span class="project-tag">Multiplayer</span>
+              </div>
+            </div>
+            <div class="project-links-col">
+              <a href="#">Play →</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div>
+              <div class="project-name">Livber: Smoke and Mirrors</div>
+              <div class="project-company">InEv Games</div>
+              <div class="project-desc">
+                Achievement systems, localization workflows, and console porting.
+                Integrated diverse assets into cohesive gameplay loops with smooth narrative flow.
+              </div>
+              <div class="project-meta">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">C#</span>
+                <span class="project-tag">Console</span>
+                <span class="project-tag">Localization</span>
+              </div>
+            </div>
+            <div class="project-links-col">
+              <a href="#">Play →</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div>
+              <div class="project-name">Kardiya: The Winds of Fate</div>
+              <div class="project-company">InEv Games</div>
+              <div class="project-desc">
+                Full RPG development cycle from design to implementation.
+                Combat balancing, progression systems, and player experience design.
+              </div>
+              <div class="project-meta">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">C#</span>
+                <span class="project-tag">RPG</span>
+              </div>
+            </div>
+            <div class="project-links-col">
+              <a href="#">Play →</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div>
+              <div class="project-name">CSI VR: Crime Scene Investigation</div>
+              <div class="project-company">GES Teknoloji</div>
+              <div class="project-desc">
+                VR interactions and immersive gameplay for a crime investigation experience.
+              </div>
+              <div class="project-meta">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">VR</span>
+                <span class="project-tag">C#</span>
+              </div>
+            </div>
+            <div class="project-links-col"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="section" id="skills">
+        <div class="section-eyebrow">04 / skills</div>
+        <div class="section-title">Tools & Technologies</div>
+        <div class="section-rule"></div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Game Engines</div>
+          <div class="tags">
+            <span class="tag">Unity</span>
+            <span class="tag">Unreal Engine</span>
+            <span class="tag">Godot</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Languages</div>
+          <div class="tags">
+            <span class="tag">C#</span>
+            <span class="tag">C++</span>
+            <span class="tag">Python</span>
+            <span class="tag">GDScript</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Art & Design</div>
+          <div class="tags">
+            <span class="tag">Aseprite</span>
+            <span class="tag">Pixel Art</span>
+            <span class="tag">Level Design</span>
+            <span class="tag">Character Design</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Workflow</div>
+          <div class="tags">
+            <span class="tag">Git</span>
+            <span class="tag">GitHub</span>
+            <span class="tag">Notion</span>
+            <span class="tag">VS Code</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Languages (spoken)</div>
+          <div class="tags">
+            <span class="tag">English</span>
+            <span class="tag">Turkish (native)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CV -->
+      <section class="section" id="cv">
+        <div class="section-eyebrow">05 / cv</div>
+        <div class="section-title">Curriculum Vitae</div>
+        <div class="section-rule"></div>
+
+        <div class="cv-block">
+          <div class="cv-edu">
+            <div class="cv-edu-school">Bahçeşehir University</div>
+            <div class="cv-edu-degree">B.Sc. Computer Engineering</div>
+            <div class="cv-edu-period">2017 — 2021 · Istanbul, Turkey</div>
+          </div>
+          <div class="cv-divider"></div>
+          <p>
+            Full résumé with experience, projects, and skills available as a PDF.
+            Feel free to reach out directly for more details.
+          </p>
+          <div class="cv-actions">
+            <a href="Tufan CV.pdf" class="btn btn-primary" download>Download PDF</a>
+            <a href="mailto:t.tugraiskender@gmail.com" class="btn btn-outline">Get in Touch</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="section-eyebrow">06 / contact</div>
+        <div class="section-title">Get in Touch</div>
+        <div class="section-rule"></div>
+
+        <ul class="contact-links-list">
+          <li>
+            <span class="contact-label">email</span>
+            <a href="mailto:t.tugraiskender@gmail.com">t.tugraiskender@gmail.com</a>
+          </li>
+          <li>
+            <span class="contact-label">github</span>
+            <a href="https://github.com/Sasete" target="_blank">github.com/Sasete</a>
+          </li>
+          <li>
+            <span class="contact-label">itch.io</span>
+            <a href="https://sasete.itch.io/" target="_blank">sasete.itch.io</a>
+          </li>
+          <li>
+            <span class="contact-label">linkedin</span>
+            <a href="https://www.linkedin.com/in/tufan-tu%C4%9Fra-%C4%B0skender" target="_blank">Tufan Tuğra İskender</a>
+          </li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // ── Theme toggle ─────────────────────────────────
+    const btn = document.getElementById('themeBtn');
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      btn.textContent = document.body.classList.contains('light')
+        ? '[ dark mode ]' : '[ light mode ]';
+    });
+
+    // ── Hamburger ────────────────────────────────────
+    const ham = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    ham.addEventListener('click', () => sidebar.classList.toggle('open'));
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && !ham.contains(e.target))
+        sidebar.classList.remove('open');
+    });
+
+    // ── Active nav on scroll ─────────────────────────
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
