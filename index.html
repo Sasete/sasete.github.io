@@ -5,518 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tufan Tuğra İskender — Game Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    /* ── Variables ───────────────────────────────────────── */
-    :root {
-      --primary-bg:    #eef2f7;
-      --secondary-bg:  #ffffff;
-      --text-primary:  #1a2634;
-      --text-secondary:#5a6e82;
-      --accent:        #1b6fa8;
-      --accent-hover:  #1a5f94;
-      --border:        #c2d0df;
-      --sidebar-w:     240px;
-    }
-    body.dark {
-      --primary-bg:    #1b2838;
-      --secondary-bg:  #16202d;
-      --text-primary:  #c6d4df;
-      --text-secondary:#8f98a0;
-      --accent:        #66c0f4;
-      --accent-hover:  #4fa3e3;
-      --border:        #2a475e;
-    }
+  <link rel="stylesheet" href="style.css" />
 
-    /* ── Reset ───────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.875rem;
-      line-height: 1.6;
-      background: var(--primary-bg);
-      color: var(--text-primary);
-      transition: background 0.3s, color 0.3s;
-    }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { color: var(--accent-hover); }
-
-    /* ── Sidebar ─────────────────────────────────────────── */
-    .sidebar {
-      position: fixed;
-      top: 0; left: 0;
-      width: var(--sidebar-w);
-      height: 100vh;
-      background: var(--secondary-bg);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1.5rem;
-      overflow-y: auto;
-      z-index: 100;
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .sidebar-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 0.2rem;
-    }
-    .sidebar-title {
-      font-size: 0.72rem;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.3rem;
-    }
-    .sidebar-location {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-    }
-    .sidebar-nav { flex: 1; }
-    .sidebar-nav ul { list-style: none; }
-    .sidebar-nav li { margin-bottom: 0.1rem; }
-    .sidebar-nav a {
-      display: block;
-      padding: 0.4rem 0;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      transition: color 0.2s, padding-left 0.2s;
-      border-left: 2px solid transparent;
-      padding-left: 0.6rem;
-    }
-    .sidebar-nav a:hover,
-    .sidebar-nav a.active {
-      color: var(--accent);
-      border-left-color: var(--accent);
-    }
-    .sidebar-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 1.2rem 0;
-    }
-    .sidebar-section-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-secondary);
-      margin-bottom: 0.6rem;
-    }
-    .sidebar-links { display: flex; flex-direction: column; gap: 0.35rem; }
-    .sidebar-links a {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .sidebar-links a:hover { color: var(--accent); }
-    .sidebar-footer { margin-top: auto; padding-top: 1.5rem; }
-    .theme-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.72rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── Content ─────────────────────────────────────────── */
-    .content {
-      margin-left: max(var(--sidebar-w), calc((100% - 860px + var(--sidebar-w)) / 2));
-      padding: 3.5rem 4rem;
-      max-width: 860px;
-    }
-
-    /* ── Section ─────────────────────────────────────────── */
-    .section { margin-bottom: 5rem; }
-    .section-header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 0.8rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .section-eyebrow {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-secondary);
-      display: block;
-      margin-bottom: 0.4rem;
-    }
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    /* ── About ───────────────────────────────────────────── */
-    .about-bio p {
-      color: var(--text-secondary);
-      font-size: 0.82rem;
-      margin-bottom: 1rem;
-      line-height: 1.7;
-    }
-    .about-bio p:last-child { margin-bottom: 0; }
-    .about-bio strong { color: var(--accent); font-weight: 500; }
-
-    /* ── Experience ──────────────────────────────────────── */
-    .exp-list { display: flex; flex-direction: column; gap: 2.5rem; }
-    .exp-item {}
-    .exp-header {
-      display: flex; align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 0.15rem;
-      flex-wrap: wrap; gap: 0.3rem;
-    }
-    .exp-company {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .exp-period {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-    }
-    .exp-role {
-      font-size: 0.75rem;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.9rem;
-    }
-    .exp-projects { display: flex; flex-direction: column; gap: 1rem; }
-    .exp-project-name {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 0.3rem;
-      border-left: 2px solid var(--accent);
-      padding-left: 0.6rem;
-    }
-    .exp-bullets { list-style: none; padding-left: 1.2rem; }
-    .exp-bullets li {
-      position: relative;
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 0.2rem;
-      padding-left: 0.2rem;
-    }
-    .exp-bullets li::before {
-      content: "—";
-      position: absolute;
-      left: -1rem;
-      color: var(--accent);
-    }
-
-    /* ── Skills ──────────────────────────────────────────── */
-    .skills-grid { display: flex; flex-direction: column; gap: 1.2rem; }
-    .skill-row { display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; }
-    .skill-row-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-secondary);
-      min-width: 100px;
-      flex-shrink: 0;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      background: var(--primary-bg);
-      padding: 0.3rem 0.7rem;
-      border: 1px solid var(--border);
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .tag:hover { color: var(--accent); border-color: var(--accent); }
-
-    /* ── Project Covers ──────────────────────────────────── */
-    .project-cover {
-      width: 180px;
-      flex-shrink: 0;
-      aspect-ratio: 2 / 3;
-      overflow: hidden;
-      position: relative;
-      background: var(--primary-bg);
-    }
-    .project-cover img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
-    .project-cover-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 0.6rem;
-      font-family: 'Roboto Mono', monospace;
-      position: absolute; top: 0; left: 0;
-    }
-    .project-cover-placeholder .ph-label {
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      opacity: 0.45;
-      color: #fff;
-    }
-    .project-cover-placeholder .ph-title {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.85);
-      letter-spacing: 0.04em;
-      text-align: center;
-      padding: 0 1rem;
-    }
-    .project-cover-placeholder .ph-mono {
-      font-size: 4rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.07);
-      letter-spacing: 0.2em;
-      position: absolute;
-      bottom: 1rem; right: 1rem;
-    }
-
-    /* ── Projects ────────────────────────────────────────── */
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .project-item {
-      display: flex;
-      flex-direction: row;
-      color: inherit;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      background: var(--secondary-bg);
-      transition: border-color 0.2s;
-      cursor: pointer;
-      overflow: hidden;
-    }
-    .project-item:hover { border-color: var(--accent); }
-    .project-item-body {
-      padding: 0.9rem 1rem 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-      min-width: 0;
-    }
-    .project-item-body-top { display: flex; flex-direction: column; gap: 0.35rem; }
-    .project-store-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      margin-top: 0.8rem;
-      padding: 0.45rem 0.7rem;
-      background: linear-gradient(180deg, #a4d007 0%, #5c9e1a 100%);
-      color: #1a2a00;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      border: none;
-      transition: filter 0.15s;
-    }
-    .project-item:hover .project-store-btn { filter: brightness(1.12); }
-    .project-store-btn.itch {
-      background: linear-gradient(180deg, #ff6b6b 0%, #fa5252 100%);
-      color: #fff;
-    }
-    .project-store-btn.website {
-      background: linear-gradient(180deg, #4a9eda 0%, #1b6fa8 100%);
-      color: #fff;
-    }
-    .project-cover-cta {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.5);
-      opacity: 0;
-      transition: opacity 0.2s;
-      font-size: 0.68rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.9);
-      gap: 0.4rem;
-    }
-    .project-item:hover .project-cover-cta { opacity: 1; }
-    .project-top {
-      display: flex; align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap; gap: 0.3rem;
-    }
-    .project-name {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .project-company {
-      font-size: 0.7rem;
-      color: var(--accent);
-    }
-    .project-desc {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 0.8rem;
-    }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .project-tag {
-      font-size: 0.68rem;
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
-      padding: 0.2rem 0.5rem;
-    }
-    .project-footer {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap; gap: 0.5rem;
-      margin-top: 0.9rem;
-    }
-    .project-store-link {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.7rem;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .project-store-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── CV ──────────────────────────────────────────────── */
-    .cv-block {
-      border: 1px solid var(--border);
-      padding: 2rem;
-      background: var(--secondary-bg);
-      max-width: 480px;
-    }
-    .cv-block p {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-    }
-    .cv-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn {
-      display: inline-block;
-      padding: 0.6rem 1.3rem;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-    .btn-filled {
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid var(--accent);
-    }
-    .btn-filled:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #fff;
-    }
-    body.dark .btn-filled {
-      background: #5c9e1a;
-      border-color: #5c9e1a;
-      color: #fff;
-    }
-    body.dark .btn-filled:hover {
-      background: #6db82a;
-      border-color: #6db82a;
-      color: #fff;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-    }
-    .btn-outline:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-    }
-    .btn-secondary:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-    body.dark .btn-secondary {
-      border-color: #5c9e1a;
-      color: #5c9e1a;
-    }
-    body.dark .btn-secondary:hover {
-      background: #5c9e1a;
-      border-color: #5c9e1a;
-      color: #fff;
-    }
-
-    /* ── Contact ─────────────────────────────────────────── */
-    .contact-block { max-width: 480px; }
-    .contact-block p {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-    }
-    .contact-links-list { display: flex; flex-direction: column; gap: 0.6rem; }
-    .contact-link-item {
-      display: flex; align-items: center; gap: 0.8rem;
-      padding: 0.7rem 0.9rem;
-      border: 1px solid var(--border);
-      background: var(--secondary-bg);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .contact-link-item:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .contact-link-item span:first-child { font-size: 1rem; }
-
-    /* ── Education ───────────────────────────────────────── */
-    .edu-item { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-    .edu-degree { font-size: 0.82rem; font-weight: 500; color: var(--text-primary); }
-    .edu-school { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.2rem; }
-    .edu-years { font-size: 0.75rem; color: var(--text-secondary); }
-
-    /* ── Hamburger / Mobile ──────────────────────────────── */
-    .hamburger {
-      display: none;
-      position: fixed; top: 1rem; right: 1rem;
-      z-index: 200;
-      background: var(--secondary-bg);
-      border: 1px solid var(--border);
-      padding: 0.5rem;
-      cursor: pointer;
-      flex-direction: column; gap: 4px;
-    }
-    .hamburger span {
-      display: block; width: 20px; height: 2px;
-      background: var(--text-primary);
-      transition: all 0.3s;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s;
-      }
-      .sidebar.open { transform: translateX(0); }
-      .content { margin-left: 0; padding: 2rem 1.5rem; }
-      .hamburger { display: flex; }
-    }
-  </style>
 </head>
 <body class="dark">
 
@@ -530,6 +20,7 @@
     <ul>
       <li><a href="#about" class="active">About</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#contributions">Contributions</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -596,14 +87,14 @@
   <!-- Projects -->
   <section class="section" id="projects">
     <div class="section-header">
-      <span class="section-eyebrow">02 - Projects</span>
-      <h2 class="section-title">Library</h2>
+      <span class="section-eyebrow">02 — Projects</span>
+      <h2 class="section-title">Shipped Titles</h2>
     </div>
     <div class="projects-list">
 
-      <a class="project-item" href="https://store.steampowered.com/app/2455460/Milord/" target="_blank"><!-- replace # with Steam URL -->
+      <a class="project-item" href="projects/milord.html">
         <div class="project-cover">
-          <img src="covers/milord.png" alt="MiLord cover">
+          <picture><source media="(max-width: 768px)" srcset="covers/milord-wide.jpg"><img src="covers/milord.png" alt="MiLord cover"></picture>
           <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1a1240 0%, #2e1f6e 50%, #1b2838 100%);">
             <span class="ph-label">iBright Games</span>
             <span class="ph-title">MiLord</span>
@@ -611,7 +102,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -630,17 +121,14 @@
               <span class="project-tag">Narrative</span>
               <span class="project-tag">Pathfinding</span>
             </div>
+            </div>
+          <span class="project-store-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://store.steampowered.com/app/2455460/Milord/','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg> View on Steam</span>
           </div>
-          <div class="project-store-btn">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam
-          </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://store.steampowered.com/app/1375900/Swarm_Grinder/" target="_blank"><!-- replace # with Steam URL -->
+      <a class="project-item" href="projects/swarm-grinder.html">
         <div class="project-cover">
-          <img src="covers/swarm-grinder.png" alt="Swarm Grinder cover">
+          <picture><source media="(max-width: 768px)" srcset="covers/swarm-grinder-wide.jpg"><img src="covers/swarm-grinder.png" alt="Swarm Grinder cover"></picture>
           <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1a0e2e 0%, #3a1a5c 50%, #1e1030 100%);">
             <span class="ph-label">Null State Protocol</span>
             <span class="ph-title">Swarm Grinder</span>
@@ -648,7 +136,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -667,16 +155,13 @@
               <span class="project-tag">Character Design</span>
             </div>
           </div>
-          <div class="project-store-btn">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam
+          <span class="project-store-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://store.steampowered.com/app/1375900/Swarm_Grinder/','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg> View on Steam</span>
           </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://store.steampowered.com/app/3700580/Livber_Smoke_and_Mirrors/" target="_blank"><!-- replace # with Steam URL -->
+      <a class="project-item" href="projects/livber.html">
         <div class="project-cover">
-          <img src="covers/livber.jpg" alt="Livber: Smoke and Mirrors cover">
+          <picture><source media="(max-width: 768px)" srcset="covers/livber-wide.jpg"><img src="covers/livber.jpg" alt="Livber: Smoke and Mirrors cover"></picture>
           <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1c1c1c 0%, #2e2e2e 40%, #1a1a22 100%);">
             <span class="ph-label">InEv Games</span>
             <span class="ph-title">Livber: Smoke and Mirrors</span>
@@ -684,7 +169,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -703,16 +188,13 @@
               <span class="project-tag">Localization</span>
             </div>
           </div>
-          <div class="project-store-btn">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam
+          <span class="project-store-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://store.steampowered.com/app/3700580/Livber_Smoke_and_Mirrors/','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg> View on Steam</span>
           </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://store.steampowered.com/app/3189020/Kardiya_The_Winds_of_Fate/" target="_blank"><!-- replace # with Steam URL -->
+      <a class="project-item" href="projects/kardiya.html">
         <div class="project-cover">
-          <img src="covers/kardiya.jpg" alt="Kardiya: The Winds of Fate cover">
+          <picture><source media="(max-width: 768px)" srcset="covers/kardiya-wide.jpg"><img src="covers/kardiya.jpg" alt="Kardiya: The Winds of Fate cover"></picture>
           <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #2e1000 0%, #5c2a00 50%, #3a1500 100%);">
             <span class="ph-label">InEv Games</span>
             <span class="ph-title">Kardiya: The Winds of Fate</span>
@@ -720,7 +202,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -739,16 +221,13 @@
               <span class="project-tag">C#</span>
             </div>
           </div>
-          <div class="project-store-btn">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam
+          <span class="project-store-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://store.steampowered.com/app/3189020/Kardiya_The_Winds_of_Fate/','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg> View on Steam</span>
           </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://hiveinvasion.games" target="_blank"><!-- replace # with website URL -->
+      <a class="project-item" href="projects/hive-invasion.html">
         <div class="project-cover">
-          <img src="covers/hive-invasion.jpg" alt="Hive Invasion cover">
+          <picture><source media="(max-width: 768px)" srcset="covers/hive-invasion-wide.jpg"><img src="covers/hive-invasion.jpg" alt="Hive Invasion cover"></picture>
           <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #0d2e1a 0%, #1a4d2a 50%, #0f3321 100%);">
             <span class="ph-label">Null State Protocol</span>
             <span class="ph-title">Hive Invasion</span>
@@ -756,7 +235,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8l-3.794-3.793-5.999 6-1.414-1.414 5.999-6L12 3h9z"/></svg>
-            Visit Website ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -775,14 +254,11 @@
               <span class="project-tag">Multiplayer</span>
             </div>
           </div>
-          <div class="project-store-btn website">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8l-3.794-3.793-5.999 6-1.414-1.414 5.999-6L12 3h9z"/></svg>
-            Visit Website
+          <span class="project-store-btn website" onclick="event.preventDefault();event.stopPropagation();window.open('https://hiveinvasion.games','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8l-3.794-3.793-5.999 6-1.414-1.414 5.999-6L12 3h9z"/></svg> Visit Website</span>
           </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://sasete.itch.io/vsm" target="_blank">
+      <a class="project-item" href="projects/vsm.html">
         <div class="project-cover" style="background: #0d1117;">
           <svg width="100%" height="100%" viewBox="0 0 460 215" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute;top:0;left:0;">
             <!-- grid lines -->
@@ -812,7 +288,7 @@
           </svg>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg>
-            View on itch.io ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -833,16 +309,13 @@
               <span class="project-tag">Tooling</span>
             </div>
           </div>
-          <div class="project-store-btn itch">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg>
-            View on itch.io
+          <span class="project-store-btn itch" onclick="event.preventDefault();event.stopPropagation();window.open('https://sasete.itch.io/vsm','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg> View on itch.io</span>
           </div>
-        </div>
       </a>
 
-      <a class="project-item" href="https://store.steampowered.com/app/893650/CSI_VR_Crime_Scene_Investigation/" target="_blank"><!-- replace # with Steam URL -->
+      <a class="project-item" href="projects/csi-vr.html">
         <div class="project-cover">
-          <img src="covers/csi-vr.png" alt="CSI VR cover" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+          <picture><source media="(max-width: 768px)" srcset="covers/csi-vr-wide.jpg"><img src="covers/csi-vr.png" alt="CSI VR cover"></picture>
           <div class="project-cover-placeholder" style="background: linear-gradient(135deg, #0d0d2e 0%, #1a1a4d 50%, #10102a 100%);">
             <span class="ph-label">GES Teknoloji</span>
             <span class="ph-title">CSI VR: Crime Scene</span>
@@ -850,7 +323,7 @@
           </div>
           <div class="project-cover-cta">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam ↗
+            Open →
           </div>
         </div>
         <div class="project-item-body">
@@ -869,20 +342,88 @@
               <span class="project-tag">C#</span>
             </div>
           </div>
-          <div class="project-store-btn">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
-            View on Steam
+          <span class="project-store-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://store.steampowered.com/app/893650/CSI_VR_Crime_Scene_Investigation/','_blank')"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg> View on Steam</span>
           </div>
-        </div>
       </a>
 
     </div>
   </section>
 
+
+  <!-- Contributions -->
+  <section class="section" id="contributions">
+    <div class="section-header">
+      <span class="section-eyebrow">03 — Contributions</span>
+      <h2 class="section-title">My Contributions</h2>
+    </div>
+    <div class="contrib-grid">
+
+      <div class="contrib-card">
+        <div class="contrib-role">Founder &amp; Lead Developer</div>
+        <div class="contrib-company">iBright Games</div>
+        <div class="contrib-period">2020 — Present</div>
+        <div class="contrib-tags">
+          <span class="contrib-tag">Studio Lead</span>
+          <span class="contrib-tag">Unity</span>
+          <span class="contrib-tag">C#</span>
+          <span class="contrib-tag">Game Design</span>
+        </div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-role">Game Developer</div>
+        <div class="contrib-company">InEv Games</div>
+        <div class="contrib-period">2022 — 2024</div>
+        <div class="contrib-tags">
+          <span class="contrib-tag">Unity</span>
+          <span class="contrib-tag">Console Porting</span>
+          <span class="contrib-tag">Localization</span>
+          <span class="contrib-tag">Achievements</span>
+        </div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-role">Co-Founder</div>
+        <div class="contrib-company">Null State Protocol</div>
+        <div class="contrib-period">2021 — Present</div>
+        <div class="contrib-tags">
+          <span class="contrib-tag">Co-Founder</span>
+          <span class="contrib-tag">Unity</span>
+          <span class="contrib-tag">Team Lead</span>
+          <span class="contrib-tag">Multiplayer</span>
+        </div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-role">Game Developer</div>
+        <div class="contrib-company">GES Teknoloji</div>
+        <div class="contrib-period">2021 — 2022</div>
+        <div class="contrib-tags">
+          <span class="contrib-tag">Unity</span>
+          <span class="contrib-tag">VR</span>
+          <span class="contrib-tag">C#</span>
+        </div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-role">Co-Founder</div>
+        <div class="contrib-company">Mensa Game Studios</div>
+        <div class="contrib-period">2019 — 2021</div>
+        <div class="contrib-tags">
+          <span class="contrib-tag">Co-Founder</span>
+          <span class="contrib-tag">Unity</span>
+          <span class="contrib-tag">Prototype</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- Skills -->
   <section class="section" id="skills">
     <div class="section-header">
-      <span class="section-eyebrow">03 — Skills</span>
+      <span class="section-eyebrow">04 — Skills</span>
       <h2 class="section-title">Abilities</h2>
     </div>
     <div class="skills-grid">
@@ -941,7 +482,7 @@
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="section-header">
-      <span class="section-eyebrow">04 — Contact</span>
+      <span class="section-eyebrow">05 — Contact</span>
       <h2 class="section-title">Reach Me Out</h2>
     </div>
     <div class="contact-block">
