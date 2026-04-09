@@ -125,7 +125,7 @@
 
     /* ── Content ─────────────────────────────────────────── */
     .content {
-      margin-left: var(--sidebar-w);
+      margin-left: max(var(--sidebar-w), calc((100% - 860px + var(--sidebar-w)) / 2));
       padding: 3.5rem 4rem;
       max-width: 860px;
     }
@@ -233,19 +233,120 @@
     }
     .tag:hover { color: var(--accent); border-color: var(--accent); }
 
+    /* ── Project Covers ──────────────────────────────────── */
+    .project-cover {
+      width: 180px;
+      flex-shrink: 0;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      position: relative;
+      background: var(--primary-bg);
+    }
+    .project-cover img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .project-cover-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 0.6rem;
+      font-family: 'Roboto Mono', monospace;
+      position: absolute; top: 0; left: 0;
+    }
+    .project-cover-placeholder .ph-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      opacity: 0.45;
+      color: #fff;
+    }
+    .project-cover-placeholder .ph-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .project-cover-placeholder .ph-mono {
+      font-size: 4rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.07);
+      letter-spacing: 0.2em;
+      position: absolute;
+      bottom: 1rem; right: 1rem;
+    }
+
     /* ── Projects ────────────────────────────────────────── */
-    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
     .project-item {
+      display: flex;
+      flex-direction: row;
+      color: inherit;
+      text-decoration: none;
       border: 1px solid var(--border);
-      padding: 1.4rem;
       background: var(--secondary-bg);
       transition: border-color 0.2s;
+      cursor: pointer;
+      overflow: hidden;
     }
     .project-item:hover { border-color: var(--accent); }
+    .project-item-body {
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      min-width: 0;
+    }
+    .project-item-body-top { display: flex; flex-direction: column; gap: 0.35rem; }
+    .project-store-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+      padding: 0.45rem 0.7rem;
+      background: linear-gradient(180deg, #a4d007 0%, #5c9e1a 100%);
+      color: #1a2a00;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      transition: filter 0.15s;
+    }
+    .project-item:hover .project-store-btn { filter: brightness(1.12); }
+    .project-store-btn.itch {
+      background: linear-gradient(180deg, #ff6b6b 0%, #fa5252 100%);
+      color: #fff;
+    }
+    .project-store-btn.website {
+      background: linear-gradient(180deg, #4a9eda 0%, #1b6fa8 100%);
+      color: #fff;
+    }
+    .project-cover-cta {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      gap: 0.4rem;
+    }
+    .project-item:hover .project-cover-cta { opacity: 1; }
     .project-top {
       display: flex; align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;
+      flex-wrap: wrap; gap: 0.3rem;
     }
     .project-name {
       font-size: 0.88rem;
@@ -268,6 +369,24 @@
       color: var(--text-secondary);
       border: 1px solid var(--border);
       padding: 0.2rem 0.5rem;
+    }
+    .project-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 0.9rem;
+    }
+    .project-store-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-store-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     /* ── CV ──────────────────────────────────────────────── */
@@ -320,6 +439,24 @@
     }
     .btn-outline:hover {
       background: var(--accent);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    .btn-secondary:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    body.dark .btn-secondary {
+      border-color: #5c9e1a;
+      color: #5c9e1a;
+    }
+    body.dark .btn-secondary:hover {
+      background: #5c9e1a;
+      border-color: #5c9e1a;
       color: #fff;
     }
 
@@ -392,10 +529,8 @@
   <nav class="sidebar-nav">
     <ul>
       <li><a href="#about" class="active">About</a></li>
-      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
-      <li><a href="#education">Education</a></li>
       <li><a href="#cv">CV</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -459,230 +594,288 @@
     </div>
   </section>
 
-  <!-- Experience -->
-  <section class="section" id="experience">
-    <div class="section-header">
-      <span class="section-eyebrow">02 — Experience</span>
-      <h2 class="section-title">Work History</h2>
-    </div>
-    <div class="exp-list">
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-company">iBright Games</span>
-          <span class="exp-period">2022 — Present</span>
-        </div>
-        <div class="exp-role">Founder</div>
-        <div class="exp-projects">
-          <div>
-            <div class="exp-project-name">MiLord</div>
-            <ul class="exp-bullets">
-              <li>Designed and implemented advanced pathfinding and narrative flow systems.</li>
-              <li>Built the Visual State Machine (VSM) framework to simplify complex gameplay logic.</li>
-              <li>Applied C# architecture skills to create scalable, parallel systems.</li>
-              <li>Directed team collaboration and iterative feature development.</li>
-            </ul>
-          </div>
-          <div>
-            <div class="exp-project-name">Visual State Machine (VSM)</div>
-            <ul class="exp-bullets">
-              <li>Built a dialogue-focused state machine framework enabling branching conversations and dynamic narrative flow.</li>
-              <li>Simplified complex dialogue logic, making systems more transparent, reusable, and designer-friendly.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-company">InEv Games</span>
-          <span class="exp-period">2025 — Present</span>
-        </div>
-        <div class="exp-role">Game Developer</div>
-        <div class="exp-projects">
-          <div>
-            <div class="exp-project-name">Livber: Smoke and Mirrors</div>
-            <ul class="exp-bullets">
-              <li>Implemented achievement systems, localization workflows, and console porting.</li>
-              <li>Integrated diverse assets into gameplay loops with smooth narrative flow.</li>
-            </ul>
-          </div>
-          <div>
-            <div class="exp-project-name">Kardiya: The Winds of Fate</div>
-            <ul class="exp-bullets">
-              <li>Oversaw the complete development cycle from design to implementation.</li>
-              <li>Focused on RPG mechanics, balancing combat, progression, and player experience.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-company">Null State Protocol</span>
-          <span class="exp-period">2025 — 2026</span>
-        </div>
-        <div class="exp-role">Co-Founder</div>
-        <div class="exp-projects">
-          <div>
-            <div class="exp-project-name">Swarm Grinder</div>
-            <ul class="exp-bullets">
-              <li>Took responsibility for character design, shaping visual identity and gameplay roles.</li>
-              <li>Managed and coordinated the development team.</li>
-            </ul>
-          </div>
-          <div>
-            <div class="exp-project-name">Hive Invasion</div>
-            <ul class="exp-bullets">
-              <li>Led development and system software design for large-scale gameplay systems.</li>
-              <li>Directed architecture and team workflows, ensuring robust multiplayer features.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-company">Mensa Interactive</span>
-          <span class="exp-period">2019 — 2022</span>
-        </div>
-        <div class="exp-role">Co-Founder</div>
-        <div class="exp-projects">
-          <div>
-            <div class="exp-project-name">Project Merchant (unreleased)</div>
-            <ul class="exp-bullets">
-              <li>Prototyped trading and economy systems with pathfinding integration.</li>
-              <li>Acted as generalist developer, coordinating workflows and iterating rapidly on mechanics.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-company">GES Teknoloji</span>
-          <span class="exp-period">Jan 2019 — May 2019</span>
-        </div>
-        <div class="exp-role">Game Developer</div>
-        <div class="exp-projects">
-          <div>
-            <div class="exp-project-name">CSI VR: Crime Scene Investigation</div>
-            <ul class="exp-bullets">
-              <li>Developed VR interactions and focused on debugging to deliver immersive gameplay.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
   <!-- Projects -->
   <section class="section" id="projects">
     <div class="section-header">
-      <span class="section-eyebrow">03 — Projects</span>
+      <span class="section-eyebrow">02 — Projects</span>
       <h2 class="section-title">Selected Work</h2>
     </div>
     <div class="projects-list">
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">MiLord</span>
-          <span class="project-company">iBright Games</span>
+      <a class="project-item" href="#" target="store.steampowered.com/app/2455460/Milord"><!-- replace # with Steam URL -->
+        <div class="project-cover">
+          <img src="covers/milord.png" alt="MiLord cover">
+          <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1a1240 0%, #2e1f6e 50%, #1b2838 100%);">
+            <span class="ph-label">iBright Games</span>
+            <span class="ph-title">MiLord</span>
+            <span class="ph-mono">ML</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam ↗
+          </div>
         </div>
-        <p class="project-desc">
-          A narrative-driven game featuring advanced pathfinding systems and the custom-built
-          Visual State Machine framework for complex dialogue and branching story logic.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">C#</span>
-          <span class="project-tag">Narrative</span>
-          <span class="project-tag">Pathfinding</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">MiLord</span>
+              <span class="project-company">iBright Games</span>
+            </div>
+            <p class="project-desc">
+              A narrative-driven game featuring advanced pathfinding systems and the custom-built
+              Visual State Machine framework for complex dialogue and branching story logic.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag">Narrative</span>
+              <span class="project-tag">Pathfinding</span>
+            </div>
+          </div>
+          <div class="project-store-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">Hive Invasion</span>
-          <span class="project-company">Null State Protocol</span>
+      <a class="project-item" href="#" target="https://store.steampowered.com/app/2455460/Milord/"><!-- replace # with Steam URL -->
+        <div class="project-cover">
+          <img src="covers/swarm-grinder.png" alt="Swarm Grinder cover">
+          <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1a0e2e 0%, #3a1a5c 50%, #1e1030 100%);">
+            <span class="ph-label">Null State Protocol</span>
+            <span class="ph-title">Swarm Grinder</span>
+            <span class="ph-mono">SG</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam ↗
+          </div>
         </div>
-        <p class="project-desc">
-          Large-scale multiplayer game. Led system software design and directed architecture
-          and team workflows to deliver robust multiplayer features.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">C#</span>
-          <span class="project-tag">Multiplayer</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">Swarm Grinder</span>
+              <span class="project-company">Null State Protocol</span>
+            </div>
+            <p class="project-desc">
+              Took responsibility for character design, shaping visual identity and gameplay roles.
+              Managed and coordinated the development team.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag">Character Design</span>
+            </div>
+          </div>
+          <div class="project-store-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">Livber: Smoke and Mirrors</span>
-          <span class="project-company">InEv Games</span>
+      <a class="project-item" href="#" target="https://store.steampowered.com/app/3700580/Livber_Smoke_and_Mirrors/"><!-- replace # with Steam URL -->
+        <div class="project-cover">
+          <img src="covers/livber.jpg" alt="Livber: Smoke and Mirrors cover">
+          <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #1c1c1c 0%, #2e2e2e 40%, #1a1a22 100%);">
+            <span class="ph-label">InEv Games</span>
+            <span class="ph-title">Livber: Smoke and Mirrors</span>
+            <span class="ph-mono">LSM</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam ↗
+          </div>
         </div>
-        <p class="project-desc">
-          Contributed achievement systems, localization pipelines and console porting.
-          Integrated diverse assets into cohesive gameplay loops.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">Console</span>
-          <span class="project-tag">Localization</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">Livber: Smoke and Mirrors</span>
+              <span class="project-company">InEv Games</span>
+            </div>
+            <p class="project-desc">
+              Contributed achievement systems, localization pipelines and console porting.
+              Integrated diverse assets into cohesive gameplay loops.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">Console</span>
+              <span class="project-tag">Localization</span>
+            </div>
+          </div>
+          <div class="project-store-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">Kardiya: The Winds of Fate</span>
-          <span class="project-company">InEv Games</span>
+      <a class="project-item" href="#" target="https://store.steampowered.com/app/3189020/Kardiya_The_Winds_of_Fate/"><!-- replace # with Steam URL -->
+        <div class="project-cover">
+          <img src="covers/kardiya.jpg" alt="Kardiya: The Winds of Fate cover">
+          <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #2e1000 0%, #5c2a00 50%, #3a1500 100%);">
+            <span class="ph-label">InEv Games</span>
+            <span class="ph-title">Kardiya: The Winds of Fate</span>
+            <span class="ph-mono">KWF</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam ↗
+          </div>
         </div>
-        <p class="project-desc">
-          Oversaw the complete development cycle of an RPG — from design through
-          implementation, balancing combat systems, progression and player experience.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">RPG</span>
-          <span class="project-tag">C#</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">Kardiya: The Winds of Fate</span>
+              <span class="project-company">InEv Games</span>
+            </div>
+            <p class="project-desc">
+              Oversaw the complete development cycle of an RPG — from design through
+              implementation, balancing combat systems, progression and player experience.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">RPG</span>
+              <span class="project-tag">C#</span>
+            </div>
+          </div>
+          <div class="project-store-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">Visual State Machine (VSM)</span>
-          <span class="project-company">iBright Games — Tool</span>
+      <a class="project-item" href="#" target="https://hiveinvasion.games"><!-- replace # with website URL -->
+        <div class="project-cover">
+          <img src="covers/hive-invasion.jpg" alt="Hive Invasion cover">
+          <div class="project-cover-placeholder" style="display:none; background: linear-gradient(135deg, #0d2e1a 0%, #1a4d2a 50%, #0f3321 100%);">
+            <span class="ph-label">Null State Protocol</span>
+            <span class="ph-title">Hive Invasion</span>
+            <span class="ph-mono">HI</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8l-3.794-3.793-5.999 6-1.414-1.414 5.999-6L12 3h9z"/></svg>
+            Visit Website ↗
+          </div>
         </div>
-        <p class="project-desc">
-          A custom dialogue-focused state machine framework enabling branching
-          conversations and dynamic narrative flow. Made systems more transparent,
-          reusable and designer-friendly.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">C#</span>
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">Framework</span>
-          <span class="project-tag">Tooling</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">Hive Invasion</span>
+              <span class="project-company">Null State Protocol</span>
+            </div>
+            <p class="project-desc">
+              Large-scale multiplayer game. Led system software design and directed architecture
+              and team workflows to deliver robust multiplayer features.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag">Multiplayer</span>
+            </div>
+          </div>
+          <div class="project-store-btn website">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8l-3.794-3.793-5.999 6-1.414-1.414 5.999-6L12 3h9z"/></svg>
+            Visit Website
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-item">
-        <div class="project-top">
-          <span class="project-name">CSI VR: Crime Scene Investigation</span>
-          <span class="project-company">GES Teknoloji</span>
+      <a class="project-item" href="https://sasete.itch.io" target="https://sasete.itch.io/vsm">
+        <div class="project-cover" style="background: #0d1117;">
+          <svg width="100%" height="100%" viewBox="0 0 460 215" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute;top:0;left:0;">
+            <!-- grid lines -->
+            <line x1="0" y1="53" x2="460" y2="53" stroke="#1e2a38" stroke-width="1"/>
+            <line x1="0" y1="107" x2="460" y2="107" stroke="#1e2a38" stroke-width="1"/>
+            <line x1="0" y1="161" x2="460" y2="161" stroke="#1e2a38" stroke-width="1"/>
+            <line x1="115" y1="0" x2="115" y2="215" stroke="#1e2a38" stroke-width="1"/>
+            <line x1="230" y1="0" x2="230" y2="215" stroke="#1e2a38" stroke-width="1"/>
+            <line x1="345" y1="0" x2="345" y2="215" stroke="#1e2a38" stroke-width="1"/>
+            <!-- nodes -->
+            <circle cx="115" cy="53"  r="6" fill="none" stroke="#66c0f4" stroke-width="1.5"/>
+            <circle cx="230" cy="53"  r="6" fill="none" stroke="#66c0f4" stroke-width="1.5"/>
+            <circle cx="345" cy="53"  r="6" fill="none" stroke="#66c0f4" stroke-width="1.5"/>
+            <circle cx="115" cy="107" r="6" fill="#66c0f4" stroke="#66c0f4" stroke-width="1.5" fill-opacity="0.3"/>
+            <circle cx="230" cy="161" r="6" fill="none" stroke="#66c0f4" stroke-width="1.5"/>
+            <circle cx="345" cy="107" r="6" fill="none" stroke="#5c9e1a" stroke-width="1.5"/>
+            <!-- edges -->
+            <line x1="121" y1="53"  x2="224" y2="53"  stroke="#66c0f4" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+            <line x1="236" y1="53"  x2="339" y2="53"  stroke="#66c0f4" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+            <line x1="115" y1="59"  x2="115" y2="101" stroke="#66c0f4" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+            <line x1="121" y1="107" x2="224" y2="155" stroke="#5c9e1a" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+            <line x1="345" y1="59"  x2="345" y2="101" stroke="#5c9e1a" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+            <!-- label -->
+            <text x="230" y="120" text-anchor="middle" font-family="monospace" font-size="28" font-weight="700" fill="#66c0f4" fill-opacity="0.18" letter-spacing="8">VSM</text>
+            <text x="18" y="200" font-family="monospace" font-size="9" fill="#66c0f4" fill-opacity="0.35" letter-spacing="2">iBright Games — Tool</text>
+            <text x="18" y="188" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="1">Visual State Machine</text>
+          </svg>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg>
+            View on itch.io ↗
+          </div>
         </div>
-        <p class="project-desc">
-          Developed VR interactions and focused on debugging to deliver immersive
-          virtual reality gameplay experiences.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Unity</span>
-          <span class="project-tag">VR</span>
-          <span class="project-tag">C#</span>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">Visual State Machine (VSM)</span>
+              <span class="project-company">iBright Games — Tool</span>
+            </div>
+            <p class="project-desc">
+              A custom dialogue-focused state machine framework enabling branching
+              conversations and dynamic narrative flow. Made systems more transparent,
+              reusable and designer-friendly.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">C#</span>
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">Framework</span>
+              <span class="project-tag">Tooling</span>
+            </div>
+          </div>
+          <div class="project-store-btn itch">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg>
+            View on itch.io
+          </div>
         </div>
-      </div>
+      </a>
+
+      <a class="project-item" href="#" target="_blank"><!-- replace # with Steam URL -->
+        <div class="project-cover">
+          <img src="covers/csi-vr.png" alt="CSI VR cover" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+          <div class="project-cover-placeholder" style="background: linear-gradient(135deg, #0d0d2e 0%, #1a1a4d 50%, #10102a 100%);">
+            <span class="ph-label">GES Teknoloji</span>
+            <span class="ph-title">CSI VR: Crime Scene</span>
+            <span class="ph-mono">VR</span>
+          </div>
+          <div class="project-cover-cta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam ↗
+          </div>
+        </div>
+        <div class="project-item-body">
+          <div class="project-item-body-top">
+            <div class="project-top">
+              <span class="project-name">CSI VR: Crime Scene Investigation</span>
+              <span class="project-company">GES Teknoloji</span>
+            </div>
+            <p class="project-desc">
+              Developed VR interactions and focused on debugging to deliver immersive
+              virtual reality gameplay experiences.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">VR</span>
+              <span class="project-tag">C#</span>
+            </div>
+          </div>
+          <div class="project-store-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0z"/></svg>
+            View on Steam
+          </div>
+        </div>
+      </a>
 
     </div>
   </section>
@@ -690,7 +883,7 @@
   <!-- Skills -->
   <section class="section" id="skills">
     <div class="section-header">
-      <span class="section-eyebrow">04 — Skills</span>
+      <span class="section-eyebrow">03 — Skills</span>
       <h2 class="section-title">Tech Stack</h2>
     </div>
     <div class="skills-grid">
@@ -738,32 +931,17 @@
     </div>
   </section>
 
-  <!-- Education -->
-  <section class="section" id="education">
-    <div class="section-header">
-      <span class="section-eyebrow">05 — Education</span>
-      <h2 class="section-title">Academic Background</h2>
-    </div>
-    <div class="edu-item">
-      <div>
-        <div class="edu-degree">BSc. Computer Engineering</div>
-        <div class="edu-school">Bahçeşehir University — Istanbul, Turkey</div>
-      </div>
-      <div class="edu-years">2017 — 2021</div>
-    </div>
-  </section>
-
   <!-- CV -->
   <section class="section" id="cv">
     <div class="section-header">
-      <span class="section-eyebrow">06 — CV</span>
+      <span class="section-eyebrow">04 — CV</span>
       <h2 class="section-title">Résumé</h2>
     </div>
     <div class="cv-block">
       <p>Full CV with detailed work history, projects and skills available as a PDF download.</p>
       <div class="cv-buttons">
         <a href="Tufan CV.pdf" class="btn btn-filled" download>Download PDF</a>
-        <a href="mailto:t.tugraiskender@gmail.com" class="btn btn-outline">Send Email</a>
+        <a href="mailto:t.tugraiskender@gmail.com" class="btn btn-secondary">Send Email</a>
       </div>
     </div>
   </section>
@@ -771,23 +949,27 @@
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="section-header">
-      <span class="section-eyebrow">07 — Contact</span>
+      <span class="section-eyebrow">05 — Contact</span>
       <h2 class="section-title">Get in Touch</h2>
     </div>
     <div class="contact-block">
       <p>Open to collaborations, project opportunities or just a chat about game development.</p>
       <div class="contact-links-list">
         <a href="mailto:t.tugraiskender@gmail.com" class="contact-link-item">
-          <span>✉</span> t.tugraiskender@gmail.com
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          t.tugraiskender@gmail.com
         </a>
         <a href="https://github.com/Sasete" target="_blank" class="contact-link-item">
-          <span>⌥</span> github.com/Sasete
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.603-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.461-1.11-1.461-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          github.com/Sasete
         </a>
         <a href="https://linkedin.com/in/tufan-tugra-iskender" target="_blank" class="contact-link-item">
-          <span>◈</span> LinkedIn — Tufan Tuğra İskender
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn — Tufan Tuğra İskender
         </a>
         <a href="https://sasete.itch.io" target="_blank" class="contact-link-item">
-          <span>◉</span> itch.io/Sasete
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v.7c0 1.29 1.21 2.4 2.3 2.4 1.31 0 2.4-1.1 2.4-2.4 0 1.3 1.07 2.4 2.38 2.4 1.31 0 2.35-1.1 2.35-2.4 0 1.3 1.1 2.4 2.4 2.4h.05c1.3 0 2.4-1.1 2.4-2.4 0 1.3 1.04 2.4 2.35 2.4 1.31 0 2.38-1.1 2.38-2.4 0 1.3 1.09 2.4 2.4 2.4 1.09 0 2.3-1.1 2.3-2.4v-.7c-.02-.62-2.08-2.99-3.13-3.61-3.22-.06-6.55-.1-9.87-.09-3.32 0-6.65.03-9.87.1zm8.87 5.82c-.2.002-.39.01-.58.026-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.18-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-1-.09-2.11.05-2.87.42v8.25c.76-.35 1.73-.46 2.66-.38 1 .09 1.97.43 2.5 1.06.17.2.28.42.28.65h1.64c0-.23.11-.45.28-.65.53-.63 1.5-.97 2.5-1.06.93-.08 1.9.03 2.66.38V7.84c-.76-.37-1.87-.51-2.87-.42-.85.08-1.63.28-2.19.63-.22.13-.43.28-.6.44-.17-.16-.38-.31-.6-.44-.56-.35-1.34-.55-2.19-.63-.2-.016-.39-.024-.58-.026z"/></svg>
+          itch.io/Sasete
         </a>
       </div>
     </div>
@@ -796,6 +978,28 @@
 </main>
 
 <script>
+  // Cover image / placeholder logic
+  document.querySelectorAll('.project-cover').forEach(cover => {
+    const img         = cover.querySelector('img');
+    const placeholder = cover.querySelector('.project-cover-placeholder');
+    if (!img || !placeholder) return;
+
+    const showPlaceholder = () => {
+      img.style.display = 'none';
+      placeholder.style.display = 'flex';
+    };
+    const hidePlaceholder = () => {
+      placeholder.style.display = 'none';
+    };
+
+    if (img.complete) {
+      img.naturalWidth > 0 ? hidePlaceholder() : showPlaceholder();
+    } else {
+      img.addEventListener('load',  hidePlaceholder);
+      img.addEventListener('error', showPlaceholder);
+    }
+  });
+
   // Theme toggle
   const btn = document.getElementById('themeBtn');
   const body = document.body;
