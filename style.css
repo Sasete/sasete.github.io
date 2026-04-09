@@ -316,7 +316,7 @@ a:hover { color: var(--accent-hover); }
 }
 .project-desc {
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: 0.4rem;
 }
@@ -326,6 +326,12 @@ a:hover { color: var(--accent-hover); }
   color: var(--text-secondary);
   border: 1px solid var(--border);
   padding: 0.2rem 0.5rem;
+}
+.contribution {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
 }
 .project-open-hint {
   margin-top: 0.7rem;
